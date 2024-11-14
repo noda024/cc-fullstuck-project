@@ -15,15 +15,25 @@ app.get("/", (req, res) => {
   res.send("Homeページアクセスできてます");
 });
 
-app.get("/api/todos", async (req, res) => {
+app.get("/api/match", async (req, res) => {
   try {
-    const todos = await knex("todos").select("*");
-    console.log(todos);
-    res.status(200).json(todos);
+    const profile = await knex("match").select("*");
+    console.log(profile);
+    res.status(200).json(profile);
   } catch (err) {
-    res.status(500).json({ error: "Failed to get todos" });
+    res.status(500).json({ error: "Failed to get profile" });
   }
 });
+
+// app.get("/api/todos", async (req, res) => {
+//   try {
+//     const todos = await knex("todos").select("*");
+//     console.log(todos);
+//     res.status(200).json(todos);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to get todos" });
+//   }
+// });
 
 app.listen(port, () => {
   console.log(port);

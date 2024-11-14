@@ -1,52 +1,65 @@
 import { useEffect, useState } from "react";
+import { useSwipeable } from "react-swipeable";
+
+import { Swipe } from "./swipe";
 // import NewItemForm from "./NewItemForm";
 // import TodoList from "./TodoList";
 import axios from "axios";
 
-console.log(import.meta.env.VITE_API_BASE_URL);
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default function App() {
-  // [ { id: xxxxxx, title: xxxxxx, completed: true/false }, {}]
-  const [todos, setTodos] = useState([]);
+  // state作成
+  const [profiles, setProfiles] = useState([]);
+  const [swipeType, setSwipeType] = useState("なし");
 
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setSwipeType("left"),
+    onSwipedRight: () => setSwipeType("right"),
+  });
   useEffect(() => {
     try {
-      const fetchTodos = async () => {
-        // const res = await fetch(`${baseUrl}/todos`)
-        // if (!res.ok) {
-        //   throw new Error(/**エラー */)
-        // }
-        // const data = await res.json()
-        const res = await axios.get(`${baseUrl}/todos`);
-        setTodos(res.data);
+      const fetchProfiles = async () => {
+        const res = await axios.get(`${baseUrl}/match`);
+        setProfiles(res.data);
       };
-      fetchTodos();
+      fetchProfiles();
     } catch (err) {
       // エラーハンドリング
     }
   }, []);
+  console.log(profiles);
 
-  async function addTodo(title) {
-    try {
-      const res = await axios.post(`${baseUrl}/todos`, { title });
-      res.data;
-    } catch (err) {
-      // エラーハンドリング
-    }
-
-    setTodos((currentTodos) => [
-      ...currentTodos,
-      { id: crypto.randomUUID(), title, completed: false },
-    ]);
+  // setProfiles((currentProfiles) => [...currentProfiles, profiles[0]]);
+  if (profiles.length === 0) {
+    return <p>Loading...</p>; // データがない場合は「Loading...」を表示
   }
-
-  console.log(todos);
   return (
+    // command + shift + mでスワイプtu-ru(devツールから)
     <>
       <h1>match</h1>
       {/* <NewItemForm onSubmit={addTodo} /> */}
       <p className="header">返却値の確認(ここできたら疎通完了)</p>
+      <div {...handlers}>
+        <img
+          src="/public/img/cat.png"
+          width="400"
+          height="200"
+          {...handlers}
+        ></img>
+        <p>
+          開発用:swipe方向:
+          {swipeType}
+        </p>
+      </div>
+      {/* <Swipe /> */}
+      <p>
+        名前：{profiles[0].name}
+        <br></br>
+        ひとこと：{profiles[0].description}
+        <br></br>
+        いいね数：{profiles[0].good.length}
+      </p>
       <p></p>
       {/* <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} /> */}
     </>
