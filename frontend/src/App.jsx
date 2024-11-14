@@ -1,22 +1,31 @@
 import { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
-
-import { Swipe } from "./swipe";
-// import NewItemForm from "./NewItemForm";
-// import TodoList from "./TodoList";
+import "./App.css";
+import { Swipe } from "./Swipe";
 import axios from "axios";
+import Header from "./Header";
+import { Matching } from "./Matching";
+import { NoMatching } from "./NoMatching";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default function App() {
   // state作成
+  // ユーザー内容保持
   const [profiles, setProfiles] = useState([]);
+  // userId保持
+  const [userId, setUserId] = useState();
+  // フリックしたか保持　falseでいいね完了画面に遷移
+  const [flick, setFlick] = useState(true);
+
   const [swipeType, setSwipeType] = useState("なし");
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => setSwipeType("left"),
-    onSwipedRight: () => setSwipeType("right"),
-  });
+  // randomな数字設定
+  useEffect(() => {
+    setUserId(Math.floor(Math.random() * 3));
+  }, []);
+
+  // APIを利用してユーザー情報取得
   useEffect(() => {
     try {
       const fetchProfiles = async () => {
@@ -28,40 +37,35 @@ export default function App() {
       // エラーハンドリング
     }
   }, []);
-  console.log(profiles);
 
-  // setProfiles((currentProfiles) => [...currentProfiles, profiles[0]]);
+  //子から親に運ぶための関数
+  function handleSwipeType(direction) {
+    setSwipeType(direction);
+  }
+
+  // データがない場合は「Loading...」を表示
   if (profiles.length === 0) {
-    return <p>Loading...</p>; // データがない場合は「Loading...」を表示
+    return <p>Loading...</p>;
   }
   return (
     // command + shift + mでスワイプtu-ru(devツールから)
     <>
-      <h1>match</h1>
-      {/* <NewItemForm onSubmit={addTodo} /> */}
-      <p className="header">返却値の確認(ここできたら疎通完了)</p>
-      <div {...handlers}>
-        <img
-          src="/public/img/cat.png"
-          width="400"
-          height="200"
-          {...handlers}
-        ></img>
-        <p>
-          開発用:swipe方向:
-          {swipeType}
-        </p>
-      </div>
-      {/* <Swipe /> */}
-      <p>
-        名前：{profiles[0].name}
-        <br></br>
-        ひとこと：{profiles[0].description}
-        <br></br>
-        いいね数：{profiles[0].good.length}
-      </p>
-      <p></p>
-      {/* <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} /> */}
+      {flick ? (
+        <>
+          <Header />
+          <Swipe
+            profiles={profiles}
+            userId={userId}
+            setFlick={setFlick}
+            // setSwipeType={setSwipeType}
+            handleSwipeType={handleSwipeType}
+          />
+        </>
+      ) : swipeType === "right" ? (
+        <Matching />
+      ) : (
+        <NoMatching />
+      )}
     </>
   );
 }
