@@ -1,29 +1,43 @@
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
-export function Swipe() {
-  const [swipeType, setSwipeType] = useState("なし");
+export function Swipe({ profiles, userId, setFlick, handleSwipeType }) {
+  // const [swipeType, setSwipeType] = useState("なし");
+
   const handlers = useSwipeable({
-    onSwipedLeft: () => setSwipeType("left"),
-    onSwipedRight: () => setSwipeType("right"),
+    onSwipedLeft: () => {
+      handleSwipeType("left");
+      setFlick(false);
+      setTimeout(() => {
+        setFlick(true);
+      }, 1000);
+    },
+    onSwipedRight: () => {
+      handleSwipeType("right");
+      setFlick(false);
+      setTimeout(() => {
+        setFlick(true); // 元に戻す
+      }, 1000);
+    },
   });
 
   return (
     <>
-      <div
-        {...handlers}
-        style={{
-          width: "300px",
-          height: "400px",
-          border: "2px solid #333",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          userSelect: "none",
-        }}
-      >
-        <h1>スワイプしてみてください！</h1>
-        <p>スワイプ方向表示：{swipeType}</p>
+      <div {...handlers}>
+        <img
+          src={`/public/img/${profiles[userId].image_path}`}
+          className="user_img"
+          {...handlers}
+        />
+      </div>
+      <div className="user_info">
+        <p>
+          名前：{profiles[userId].name}
+          <br></br>
+          ひとこと：{profiles[userId].description}
+          {/* <br></br>
+              いいね数：{profiles[2].good.length} */}
+        </p>
       </div>
     </>
   );
