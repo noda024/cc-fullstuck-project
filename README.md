@@ -1,5 +1,73 @@
 # cc-fullstuck-project
 
+## 構築手順
+
+0. はじめに
+   ・psql、npm などは利用できる環境にしておいてください
+
+1. 環境作成
+   1-1. ディレクトリ作成
+   ・ディレクトリの作成
+   作成したいディレクトリに移動した後以下のコマンドを入力
+
+```
+mkdir try-project
+cd try-project
+```
+
+1-2. git をクローンしてディレクトリ移動
+
+```
+git clone https://github.com/noda024/cc-fullstuck-project.git
+
+cc-fullstuck-project
+```
+
+1-3 front 側のパッケージインストール
+
+```
+cd frontend
+npm i
+npm install react react-dom react-swipeable
+```
+
+1-4 backend 側のパッケージインストール
+
+```
+cd ../backend
+npm i
+```
+
+2. データのインポート・環境変数追加
+   ・frontend ディレクトリ以下に`.env.local`を作成し以下を記載
+
+```
+VITE_API_BASE_URL=/api
+```
+
+・backend ディレクトリ以下に`.env.local`を作成し、自分の所有する DB の値を作成
+
+```
+DB_USER = ""
+DB_PASSWORD = ""
+DB_NAME = ""
+PORT=""
+```
+
+3. アプリの動かし方
+
+```
+// expressサーバが立ち上がります
+npm run start
+
+// reactサーバが立ち上がります
+cd ../frontend
+npm run dev
+```
+
+4. 実際に使ってみる
+   あとはブラウザを開いて使ってみてください！
+
 ## アプリ概要
 
 ### マッチングアプリ叩き台(人でなくても良い)
