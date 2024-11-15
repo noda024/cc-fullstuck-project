@@ -20,7 +20,7 @@ cd try-project
 ```
 git clone https://github.com/noda024/cc-fullstuck-project.git
 
-cc-fullstuck-project
+cd cc-fullstuck-project
 ```
 
 1-3 front 側のパッケージインストール
@@ -67,6 +67,7 @@ npm run dev
 
 4. 実際に使ってみる
    あとはブラウザを開いて使ってみてください！
+   機能に関しては適当に下をの main 画面の機能の部分を見てください
 
 ## アプリ概要
 

@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useSwipeable } from "react-swipeable";
+import { useEffect } from "react";
 
-export function Swipe({ profiles, userId, setFlick, handleSwipeType }) {
+export function Swipe({
+  profiles,
+  userId,
+  setFlick,
+  handleSwipeType,
+  // handleLooked,
+}) {
   // const [swipeType, setSwipeType] = useState("なし");
 
   const handlers = useSwipeable({
@@ -10,6 +17,7 @@ export function Swipe({ profiles, userId, setFlick, handleSwipeType }) {
       setFlick(false);
       setTimeout(() => {
         setFlick(true);
+        handleSwipeType("なし");
       }, 1000);
     },
     onSwipedRight: () => {
@@ -17,9 +25,18 @@ export function Swipe({ profiles, userId, setFlick, handleSwipeType }) {
       setFlick(false);
       setTimeout(() => {
         setFlick(true); // 元に戻す
+        handleSwipeType("なし");
       }, 1000);
     },
   });
+
+  // function handleLookedMen() {
+  //   handelLooked(profiles.id);
+  // }
+
+  // useEffect(() => {
+  //   handleLooked(profiles.id);
+  // }, []);
 
   return (
     <>
@@ -35,8 +52,8 @@ export function Swipe({ profiles, userId, setFlick, handleSwipeType }) {
           名前：{profiles[userId].name}
           <br></br>
           ひとこと：{profiles[userId].description}
-          {/* <br></br>
-              いいね数：{profiles[2].good.length} */}
+          <br></br>
+          出身：{profiles[userId].born} 年齢：{profiles[userId].age}
         </p>
       </div>
     </>
