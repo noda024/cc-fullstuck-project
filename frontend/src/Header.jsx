@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-export default function Header() {
+export default function Header(name) {
   return (
     <>
       <header className="header">
@@ -9,10 +7,11 @@ export default function Header() {
           <h1 className="Title">To matching</h1>
         </div>
       </header>
-      <p>
+      <div>
+        <h2>Hello {name.name} さん</h2>
         良いと思ったものには右フリック!<br></br>
         微妙だと思ったものは左フリックしてみよう！
-      </p>
+      </div>
     </>
   );
 }

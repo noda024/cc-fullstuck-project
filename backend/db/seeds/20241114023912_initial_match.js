@@ -13,7 +13,7 @@ exports.seed = async function (knex) {
       age: 10,
       born: "Hiroshima",
       description: "I am cat",
-      good: "2",
+      good: ["2"],
       image_path: "cat.png",
     },
     {
@@ -23,7 +23,7 @@ exports.seed = async function (knex) {
       age: 11,
       born: "Okayama",
       description: "I am dog",
-      good: "1",
+      good: ["1"],
       image_path: "dog.png",
     },
     {
@@ -34,6 +34,7 @@ exports.seed = async function (knex) {
       born: "Hiroshima",
       description: "I am pig",
       image_path: "pig.png",
+      good: ["7"],
     },
   ]);
 };
