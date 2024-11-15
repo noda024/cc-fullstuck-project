@@ -54,6 +54,7 @@ export default function App() {
     try {
       const fetchProfiles = async () => {
         const res = await axios.get(`${baseUrl}/matches`);
+        console.log(baseUrl);
         setProfiles(res.data);
       };
       fetchProfiles();
@@ -62,21 +63,23 @@ export default function App() {
     }
   }, []);
 
-  // ログイン情報を利用して登録(名前があれば登録、なければheaderにログイン名を)
+  // // ログイン情報を利用して登録(名前があれば登録、なければheaderにログイン名を)
   // useEffect(() => {
   //   // try {
   //   const nameList = profiles.map((item) => item.name);
   //   console.log(nameList);
-  //   // if (!nameList.includes(name)}
-  //   //   const fetchProfiles = async () => {
-  //   //     const res = await axios.get(`${baseUrl}/match`);
-  //   //     setProfiles(res.data);
-  //   //   };
-  //   //   fetchProfiles();
-  //   // } catch (err) {
-  //   //   console.log(err);
-  //   // }
-  // }, [name]);
+  //   try {
+  //     if (!nameList.includes(name)) {
+  //       const insertProfiles = async () => {
+  //         const res = await axios.post(`${baseUrl}/matches`, name);
+  //         // setProfiles(res.data);
+  //       };
+  //       insertProfiles();
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, [login]);
 
   // 子から親にフリック方向を運ぶための関数
   function handleSwipeType(direction) {
@@ -111,7 +114,13 @@ export default function App() {
       {sorry ? (
         <Sorry />
       ) : !login ? (
-        <Login name={name} handleLogin={handleLogin} setName={setName} />
+        <Login
+          name={name}
+          handleLogin={handleLogin}
+          setName={setName}
+          profiles={profiles}
+          baseUrl={baseUrl}
+        />
       ) : flick ? (
         <>
           <Header name={name} />

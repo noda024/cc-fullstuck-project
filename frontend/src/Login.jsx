@@ -1,12 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-export function Login({ name, handleLogin, setName }) {
+export function Login({ name, handleLogin, setName, profiles, baseUrl }) {
   function handleLoginCheck(e) {
     setName(e.target.value);
   }
 
   function handleSubmit() {
     handleLogin(true, name);
+  }
+
+  // ログイン情報を利用して登録(名前があれば登録、なければheaderにログイン名を)
+  function insertApi() {
+    console.log(profiles);
+    const nameList = profiles.map((item) => item.name);
+    console.log(nameList);
+    try {
+      if (!nameList.includes(name)) {
+        const insertProfiles = async () => {
+          const res = await axios.post(`${baseUrl}/matches`, { name: name });
+        };
+        insertProfiles();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // 聞いた内容
@@ -29,7 +47,14 @@ export function Login({ name, handleLogin, setName }) {
         value={name}
         onChange={handleLoginCheck}
       />
-      <button onClick={handleSubmit}>ログイン</button>
+      <button
+        onClick={() => {
+          handleSubmit();
+          insertApi();
+        }}
+      >
+        ログイン
+      </button>
     </>
   );
 }
